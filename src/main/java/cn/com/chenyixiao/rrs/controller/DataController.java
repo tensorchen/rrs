@@ -18,10 +18,12 @@ import cn.com.chenyixiao.rrs.entity.Food;
 import cn.com.chenyixiao.rrs.entity.Preference2d;
 import cn.com.chenyixiao.rrs.entity.Preference3d;
 import cn.com.chenyixiao.rrs.entity.Restaurant;
+import cn.com.chenyixiao.rrs.entity.RestaurantFood;
 import cn.com.chenyixiao.rrs.entity.User;
 import cn.com.chenyixiao.rrs.service.FoodService;
 import cn.com.chenyixiao.rrs.service.Preference2dService;
 import cn.com.chenyixiao.rrs.service.Preference3dService;
+import cn.com.chenyixiao.rrs.service.RestaurantFoodService;
 import cn.com.chenyixiao.rrs.service.RestaurantService;
 import cn.com.chenyixiao.rrs.service.UserService;
 import cn.com.chenyixiao.rrs.vo.Counter;
@@ -45,40 +47,43 @@ public class DataController {
 	private Preference2dService preference2dService;
 	@Autowired
 	private Preference3dService preference3dService;
+	@Autowired
+	private RestaurantFoodService restaurantFoodService;
 
 	@ResponseBody
-	@RequestMapping(value = "/load", method = RequestMethod.GET)
-	public String LoadData() throws IOException {
-		load();
-		return count();
+	//@RequestMapping(value = "/load", method = RequestMethod.GET)
+	public String load() throws IOException {
+		loadData();
+		return countData();
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/clean", method = RequestMethod.GET)
-	public String cleanData() {
-		clean();
-		return count();
+	//@RequestMapping(value = "/clean", method = RequestMethod.GET)
+	public String clean() {
+		cleanData();
+		return countData();
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/count", method = RequestMethod.GET)
-	public String countData() {
-		return count();
+	public String count() {
+		return countData();
 	}
 	
-	private String count() {
+	private String countData() {
 		Counter counter = new Counter();
 		counter.setFoodNum(foodService.count());
 		counter.setUserNum(userService.count());
 		counter.setRestaurantNum(restaurantService.count());
 		counter.setPreference2d(preference2dService.count());
 		counter.setPreference3d(preference3dService.count());
+		counter.setRestaurantFood(restaurantFoodService.count());
 		
 		Gson gson = new Gson();
 		return gson.toJson(counter);
 	}
 	
-	private void load() throws IOException {
+	private void loadData() throws IOException {
 		
 		FileInputStream fis = new FileInputStream(dataFile); 
 		InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
@@ -95,6 +100,15 @@ public class DataController {
 		br.close();
 		isr.close();
 		fis.close();
+	}
+	
+	private void cleanData() {
+		restaurantService.deleteAllRestaurants();
+		foodService.deleteAllFoods();
+		userService.deleteAllUsers();
+		preference2dService.deleteAllPreference2d();
+		preference3dService.deleteAllPreference3d();
+		restaurantFoodService.deleteAllRestaurantFoods();
 	}
 	
 	private void save(Rrs rrs) {
@@ -118,6 +132,11 @@ public class DataController {
 			Food food = new Food();
 			food.setName(foodVO.getFoodName());
 			foodService.addFood(food);
+			
+			RestaurantFood restaurantFood = new RestaurantFood();
+			restaurantFood.setRestaurantId(rrs.getRestaurantId());
+			restaurantFood.setFoodId(foodService.findByName(foodVO.getFoodName()).getId());
+			restaurantFoodService.addRestaurantFood(restaurantFood);
 		}
 	}
 	
@@ -151,13 +170,7 @@ public class DataController {
 	}
 	
 	
-	private void clean() {
-		restaurantService.deleteAllRestaurants();
-		foodService.deleteAllFoods();
-		userService.deleteAllUsers();
-		preference2dService.deleteAllPreference2d();
-		preference3dService.deleteAllPreference3d();
-	}
+
 	
 	private Double computeAverage(List<Double> list) {
 		

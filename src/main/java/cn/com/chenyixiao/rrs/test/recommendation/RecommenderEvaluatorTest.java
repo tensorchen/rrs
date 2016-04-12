@@ -1,13 +1,12 @@
-package cn.com.chenyixiao.test.recommendation;
+package cn.com.chenyixiao.rrs.test.recommendation;
 
 import java.io.File;
 import java.io.IOException;
 
 import org.apache.mahout.cf.taste.common.TasteException;
-import org.apache.mahout.cf.taste.eval.IRStatistics;
 import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
-import org.apache.mahout.cf.taste.eval.RecommenderIRStatsEvaluator;
-import org.apache.mahout.cf.taste.impl.eval.GenericRecommenderIRStatsEvaluator;
+import org.apache.mahout.cf.taste.eval.RecommenderEvaluator;
+import org.apache.mahout.cf.taste.impl.eval.AverageAbsoluteDifferenceRecommenderEvaluator;
 import org.apache.mahout.cf.taste.impl.model.file.FileDataModel;
 import org.apache.mahout.cf.taste.impl.neighborhood.NearestNUserNeighborhood;
 import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
@@ -18,17 +17,16 @@ import org.apache.mahout.cf.taste.recommender.Recommender;
 import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 import org.apache.mahout.common.RandomUtils;
 
-public class RecommenderIRStatsEvaluatorTest {
+public class RecommenderEvaluatorTest {
 
 	public static void main(String[] args) throws IOException, TasteException {
 		RandomUtils.useTestSeed();
 		
-		final DataModel model = new FileDataModel(new File("data/intro.csv"));
+		final DataModel model = new FileDataModel(new File("data/ua.base"));
 		
-		RecommenderIRStatsEvaluator evaluator = 
-				new GenericRecommenderIRStatsEvaluator();
+		RecommenderEvaluator evaluator = new AverageAbsoluteDifferenceRecommenderEvaluator();
 		
-		RecommenderBuilder recommenderBuilder = new RecommenderBuilder() {
+		RecommenderBuilder builder = new RecommenderBuilder() {
 			
 			public Recommender buildRecommender(DataModel dataModel) throws TasteException {
 				UserSimilarity similarity = new PearsonCorrelationSimilarity(model);
@@ -38,11 +36,9 @@ public class RecommenderIRStatsEvaluatorTest {
 			}
 		};
 		
-		IRStatistics stats = evaluator.evaluate(recommenderBuilder, null, model, null, 2, 
-				GenericRecommenderIRStatsEvaluator.CHOOSE_THRESHOLD, 1.0);
+		double score = evaluator.evaluate(builder, null, model, 0.7, 1.0);
 		
-		System.out.println(stats.getPrecision());
-		System.out.println(stats.getRecall());
+		System.out.println(score);
 	}
 
 }

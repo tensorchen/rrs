@@ -14,4 +14,6 @@ public interface Preference3dService {
 	public void deleteAllPreference3d();
 	
 	public Long count();
+	
+	public void addOrUpdatePreference3d(Preference3d preference3d);
 }

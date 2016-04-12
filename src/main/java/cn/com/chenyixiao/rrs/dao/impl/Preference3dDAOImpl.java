@@ -2,6 +2,7 @@ package cn.com.chenyixiao.rrs.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,4 +67,22 @@ public class Preference3dDAOImpl implements Preference3dDAO {
 		return (Long) getCurrentSession()
 				.createQuery("select count(*) from Preference3d").uniqueResult();
 	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Preference3d getPreference3dByURF(Long foodId, Long userId, Long restaurantId) {
+		String hql = "from Preference3d as p3 where p3.foodId = :foodId and p3.userId = :userId and p3.restaurantId = :restaurantId";
+		Query query = getCurrentSession().createQuery(hql);
+		query.setParameter("userId", userId);
+		query.setParameter("restaurantId", restaurantId);
+		query.setParameter("foodId", foodId);
+		List<Preference3d> preference3ds = query.list();
+		
+		if (preference3ds == null) {
+			return null;
+		} else {
+			return preference3ds.get(0);
+		}
+ 	}
 }

@@ -2,6 +2,7 @@ package cn.com.chenyixiao.rrs.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,5 +66,21 @@ public class Preference2dDAOImpl implements Preference2dDAO {
 	public Long count() {
 		return (Long) getCurrentSession()
 				.createQuery("select count(*) from Preference2d").uniqueResult();
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Preference2d> getPreferencesByUserId(Long userId) {
+
+		String hql = "from Preference2d as p2 where p2.userId = :userId";
+		Query query = getCurrentSession().createQuery(hql);
+		query.setParameter("userId", userId);
+		List<Preference2d> preference2ds = query.list();
+		if (preference2ds.isEmpty()) {
+			return null;
+		} else {
+			return preference2ds;
+		}
 	}
 }

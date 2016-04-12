@@ -49,4 +49,11 @@ public class Preference2dServiceImpl implements Preference2dService {
 	public Long count() {
 		return preference2dDAO.count();
 	}
+
+
+	@Override
+	public List<Preference2d> getPreferencesByUserId(Long userId) {
+		
+		return preference2dDAO.getPreferencesByUserId(userId);
+	}
 }

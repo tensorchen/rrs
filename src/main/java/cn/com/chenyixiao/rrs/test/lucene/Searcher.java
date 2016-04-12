@@ -1,4 +1,4 @@
-package cn.com.chenyixiao.rrs.lucene.test;
+package cn.com.chenyixiao.rrs.test.lucene;
 
 import java.io.File;
 import java.io.IOException;

@@ -49,4 +49,20 @@ public class Preference3dServiceImpl implements Preference3dService {
 	public Long count() {
 		return preference3dDAO.count();
 	}
+
+
+	@Override
+	public void addOrUpdatePreference3d(Preference3d preference3d) {
+		Preference3d preference3dToAdd = preference3dDAO.getPreference3dByURF(preference3d.getFoodId(), 
+				preference3d.getUserId(), preference3d.getRestaurantId());
+		
+		if (preference3dToAdd == null) {
+			preference3dDAO.addPreference3d(preference3d);
+		} else {
+			preference3dToAdd.setContent(preference3d.getContent());
+			preference3dToAdd.setScore(preference3d.getScore());
+			preference3dDAO.updatePreference3d(preference3dToAdd);
+		}
+		
+	}
 }

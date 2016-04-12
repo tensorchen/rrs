@@ -2,7 +2,6 @@ package cn.com.chenyixiao.rrs.init;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration.Dynamic;
 
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
@@ -17,10 +16,18 @@ public class Initializer implements WebApplicationInitializer {
 		AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
 		ctx.register(WebAppConfig.class);
 		servletContext.addListener(new ContextLoaderListener(ctx));
+		
+//		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+//		characterEncodingFilter.setEncoding("UTF-8");
+//		characterEncodingFilter.setForceEncoding(true);
+//		javax.servlet.FilterRegistration.Dynamic filter = 
+//				servletContext.addFilter("characterEncodingFilter", characterEncodingFilter);
+//		filter.addMappingForUrlPatterns( EnumSet.of(DispatcherType.REQUEST), 
+//				true, "/*");
 
 		ctx.setServletContext(servletContext);
 
-		Dynamic servlet = servletContext.addServlet("dispatcher", new DispatcherServlet(ctx));
+		javax.servlet.ServletRegistration.Dynamic servlet = servletContext.addServlet("dispatcher", new DispatcherServlet(ctx));
 		servlet.addMapping("/");
 		servlet.setLoadOnStartup(1);
 	}

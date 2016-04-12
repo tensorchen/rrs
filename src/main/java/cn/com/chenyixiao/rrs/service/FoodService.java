@@ -16,4 +16,6 @@ public interface FoodService {
 	public Long count();
 	
 	public Food findByName(String name);
+	
+	public List<Food> getFoodsByRestaurantId(Long restaurantId);
 }

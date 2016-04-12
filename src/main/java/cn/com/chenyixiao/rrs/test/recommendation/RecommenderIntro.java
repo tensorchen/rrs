@@ -1,4 +1,4 @@
-package cn.com.chenyixiao.test.recommendation;
+package cn.com.chenyixiao.rrs.test.recommendation;
 
 import java.io.File;
 import java.io.IOException;

@@ -19,6 +19,9 @@ public class Preference3d implements java.io.Serializable {
 	private Long restaurantId;
 	private Long foodId;
 	private Long userId;
+	private String content;
+	private Double score;
+
 
 	public Preference3d() {
 	}
@@ -27,11 +30,14 @@ public class Preference3d implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public Preference3d(long id, Long restaurantId, Long foodId, Long userId) {
+	public Preference3d(long id, Long restaurantId, Long foodId, Long userId,
+			String content, Double score) {
 		this.id = id;
 		this.restaurantId = restaurantId;
 		this.foodId = foodId;
 		this.userId = userId;
+		this.content = content;
+		this.score = score;
 	}
 
 	@Id
@@ -70,6 +76,24 @@ public class Preference3d implements java.io.Serializable {
 
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+	
+	@Column(name = "content")
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	@Column(name = "score")
+	public Double getScore() {
+		return score;
+	}
+
+	public void setScore(Double score) {
+		this.score = score;
 	}
 
 }

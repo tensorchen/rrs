@@ -6,23 +6,26 @@ public class Counter {
 	private Long restaurantNum;
 	private Long preference2d;
 	private Long preference3d;
+	private Long restaurantFood;
 	
-	
+
 	public Counter() {
 		super();
 	}
 
-
-	public Counter(Long userNum, Long foodNum, Long restaurantNum, Long preference2d, Long preference3d) {
+	
+	public Counter(Long userNum, Long foodNum, Long restaurantNum, Long preference2d, Long preference3d,
+			Long restaurantFood) {
 		super();
 		this.userNum = userNum;
 		this.foodNum = foodNum;
 		this.restaurantNum = restaurantNum;
 		this.preference2d = preference2d;
 		this.preference3d = preference3d;
+		this.restaurantFood = restaurantFood;
 	}
-	
-	
+
+
 	public Long getUserNum() {
 		return userNum;
 	}
@@ -55,4 +58,14 @@ public class Counter {
 	}
 	
 	
+	public Long getRestaurantFood() {
+		return restaurantFood;
+	}
+
+
+	public void setRestaurantFood(Long restaurantFood) {
+		this.restaurantFood = restaurantFood;
+	}
+
+
 }

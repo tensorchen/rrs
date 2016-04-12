@@ -14,4 +14,6 @@ public interface Preference2dService {
 	public void deleteAllPreference2d();
 	
 	public Long count();
+	
+	public List<Preference2d> getPreferencesByUserId(Long userId);
 }
