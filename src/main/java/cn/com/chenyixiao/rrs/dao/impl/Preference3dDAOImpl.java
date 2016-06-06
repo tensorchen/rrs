@@ -85,4 +85,20 @@ public class Preference3dDAOImpl implements Preference3dDAO {
 			return preference3ds.get(0);
 		}
  	}
+
+
+	@Override
+	public List<Preference3d> getPreference3dListByUser(Long userId) {
+
+		String hql = "from Preference3d as p3 where p3.userId = :userId";
+		Query query = getCurrentSession().createQuery(hql);
+		query.setParameter("userId", userId);
+		List<Preference3d> preference3ds = query.list();
+		
+		if (preference3ds == null) {
+			return null;
+		} else {
+			return preference3ds;
+		}
+	}
 }

@@ -65,4 +65,11 @@ public class Preference3dServiceImpl implements Preference3dService {
 		}
 		
 	}
+
+
+	@Override
+	public List<Preference3d> getPreference3dListByUser(Long userId) {
+
+		return preference3dDAO.getPreference3dListByUser(userId);
+	}
 }

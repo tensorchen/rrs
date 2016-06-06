@@ -15,6 +15,8 @@ public interface Preference3dDAO {
 	
 	public Long count();
 	
+	public List<Preference3d> getPreference3dListByUser(Long userId);
+
 	public Preference3d getPreference3dByURF(Long foodId,
 			Long userId, Long restaurantId);
 }

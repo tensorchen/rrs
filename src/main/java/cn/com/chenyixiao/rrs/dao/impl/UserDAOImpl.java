@@ -2,6 +2,7 @@ package cn.com.chenyixiao.rrs.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,5 +62,19 @@ public class UserDAOImpl implements UserDAO {
 	public Long count() {
 		return (Long) getCurrentSession()
 				.createQuery("select count(*) from User").uniqueResult();
+	}
+
+
+	@SuppressWarnings("unchecked")
+	public User getUserByName(String name) {
+		String hql = "from User as u where u.name = :name";
+		Query query = getCurrentSession().createQuery(hql);
+		query.setParameter("name", name);
+		List<User> users = query.list();
+		if (users.isEmpty()) {
+			return null;
+		} else {
+			return users.get(users.size() - 1);
+		}
 	}
 }

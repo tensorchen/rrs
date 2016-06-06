@@ -48,4 +48,8 @@ public class UserServiceImpl implements UserService {
 	public Long count() {
 		return userDAO.count();
 	}
+	
+	public User getUserByName(String name) {
+		return userDAO.getUserByName(name);
+	}
 }

@@ -16,4 +16,6 @@ public interface Preference3dService {
 	public Long count();
 	
 	public void addOrUpdatePreference3d(Preference3d preference3d);
+	
+	public List<Preference3d> getPreference3dListByUser(Long userId);
 }

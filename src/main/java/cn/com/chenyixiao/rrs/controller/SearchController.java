@@ -44,6 +44,7 @@ import cn.com.chenyixiao.rrs.vo.SearchResult;
 @Controller
 public class SearchController {
 
+	private static final String filePath = "./rrs/index";
 	private String SUCCESS = "success";
 	
 	@Autowired
@@ -52,7 +53,7 @@ public class SearchController {
 	private FoodService foodService;
 	
 	@ResponseBody
-	@RequestMapping(value = "/index", method = RequestMethod.GET)
+	@RequestMapping(value = "/search/index", method = RequestMethod.GET)
 	public String index() throws IOException {
 		indexData();
 		return SUCCESS;
@@ -67,7 +68,7 @@ public class SearchController {
 	}
 	
 	private void indexData() throws IOException {
-		Indexer indexer = new Indexer("./index");
+		Indexer indexer = new Indexer(filePath);
 		
 		List<Restaurant> restaurants = restaurantService.getAllRestaurants();
 		
@@ -100,7 +101,7 @@ public class SearchController {
 	}
 	
 	private String searchData(String key) throws IOException, ParseException, InvalidTokenOffsetsException {
-		Directory directory = FSDirectory.open(new File("./index"));
+		Directory directory = FSDirectory.open(new File(filePath));
 		IndexSearcher indexSearcher = new IndexSearcher(directory);
 		
 		QueryParser queryParser = new QueryParser(Version.LUCENE_31, "foods",

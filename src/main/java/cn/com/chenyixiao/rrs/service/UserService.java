@@ -14,4 +14,6 @@ public interface UserService {
 	public void deleteAllUsers();
 	
 	public Long count();
+	
+	public User getUserByName(String name);
 }

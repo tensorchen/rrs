@@ -46,6 +46,8 @@ import cn.com.chenyixiao.rrs.vo.RecommendResultVO;
 @Controller
 @RequestMapping(produces="application/json;charset=UTF-8")
 public class RecommendController {
+	
+	private static final String filePath = "./rrs/data/dianping_user-restaurant.csv";
 
 	@Autowired
 	private Preference2dService preference2dService;
@@ -168,14 +170,14 @@ public class RecommendController {
 	}
 	
 	private DataModel getFileDataModel() throws IOException {
-		return new FileDataModel(new File("./data/dianping_user-restaurant.csv"));
+		return new FileDataModel(new File(filePath));
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/data/csv", method = RequestMethod.GET)
 	public void generateDataCSV() throws IOException {
 		
-		File file = new File("./data/dianping_user-restaurant.csv");
+		File file = new File(filePath);
 		if (!file.exists())
 			file.createNewFile();
 		

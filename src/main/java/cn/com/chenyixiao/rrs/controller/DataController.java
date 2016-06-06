@@ -51,14 +51,14 @@ public class DataController {
 	private RestaurantFoodService restaurantFoodService;
 
 	@ResponseBody
-	//@RequestMapping(value = "/load", method = RequestMethod.GET)
+	@RequestMapping(value = "/load", method = RequestMethod.GET)
 	public String load() throws IOException {
 		loadData();
 		return countData();
 	}
 	
 	@ResponseBody
-	//@RequestMapping(value = "/clean", method = RequestMethod.GET)
+	@RequestMapping(value = "/clean", method = RequestMethod.GET)
 	public String clean() {
 		cleanData();
 		return countData();
