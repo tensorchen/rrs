@@ -54,4 +54,9 @@ public class RestaurantFoodServiceImpl implements RestaurantFoodService {
 		return restaurantFoodDAO.count();
 	}
 
+	@Override
+	public List<RestaurantFood> getRestaurantFoodsByRestaurantId(Long restaurantId) {
+		return restaurantFoodDAO.getRestaurantFoodsByRestaurantId(restaurantId);
+	}
+
 }

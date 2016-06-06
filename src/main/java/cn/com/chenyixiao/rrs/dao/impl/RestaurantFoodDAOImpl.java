@@ -12,7 +12,7 @@ import cn.com.chenyixiao.rrs.dao.RestaurantFoodDAO;
 import cn.com.chenyixiao.rrs.entity.RestaurantFood;
 
 @Repository
-public class RestaurantFoodImpl implements RestaurantFoodDAO {
+public class RestaurantFoodDAOImpl implements RestaurantFoodDAO {
 
 	@Autowired
 	private SessionFactory sessionFactory;

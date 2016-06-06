@@ -14,4 +14,6 @@ public interface RestaurantFoodService {
 	public void deleteAllRestaurantFoods();
 	
 	public Long count();
+	
+	public List<RestaurantFood> getRestaurantFoodsByRestaurantId(Long restaurantId);
 }

@@ -36,9 +36,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
+import cn.com.chenyixiao.rrs.entity.Food;
 import cn.com.chenyixiao.rrs.entity.Preference2d;
+import cn.com.chenyixiao.rrs.entity.RestaurantFood;
 import cn.com.chenyixiao.rrs.entity.User;
 import cn.com.chenyixiao.rrs.service.Preference2dService;
+import cn.com.chenyixiao.rrs.service.RestaurantFoodService;
 import cn.com.chenyixiao.rrs.service.UserService;
 import cn.com.chenyixiao.rrs.vo.RecommendResult;
 import cn.com.chenyixiao.rrs.vo.RecommendResultVO;
@@ -53,10 +56,12 @@ public class RecommendController {
 	private Preference2dService preference2dService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private RestaurantFoodService restaurantFoodService;
 	
 	
 	@ResponseBody
-	@RequestMapping(value = "/recommend/{userId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/recommend/user/{userId}", method = RequestMethod.GET)
 	public String recommend(@PathVariable Long userId
 			) throws TasteException, IOException {
 		
@@ -93,6 +98,51 @@ public class RecommendController {
 			recommendResultVO.setScore(recommendedItems.get(i).getValue());
 			
 			recommendResultVOs.add(i, recommendResultVO);
+		}
+		
+		return gson.toJson(recommendResultVOs);
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/recommend/user/{userId}/food/{foodId}", method = RequestMethod.GET)
+	public String recommendByFood(@PathVariable Long userId, @PathVariable Long foodId
+			) throws TasteException, IOException {
+		
+		DataModel dataModel = getFileDataModel();
+		
+		
+		UserSimilarity userSimilarity =
+				new LogLikelihoodSimilarity(dataModel); //对数似然比
+		
+		UserNeighborhood userNeighborhood = 
+				new NearestNUserNeighborhood(10, userSimilarity, dataModel);
+
+		Recommender recommender = 
+				new SVDRecommender(dataModel, new ALSWRFactorizer(dataModel, 10, 0.05, 10));
+		
+		List<RecommendedItem> recommendedItems =
+				recommender.recommend(userId, 1000);
+		
+		Gson gson = new Gson();
+		
+		List<RecommendResultVO> recommendResultVOs =
+				new ArrayList<RecommendResultVO>();
+		
+		for (int i = 0; i < recommendedItems.size(); i++) {
+			List<RestaurantFood> rfList = restaurantFoodService.
+					getRestaurantFoodsByRestaurantId(recommendedItems.get(i).getItemID());
+			
+			for (RestaurantFood restaurantFood : rfList) {
+				if (restaurantFood.getFoodId() == foodId) {
+					RecommendResultVO recommendResultVO = new RecommendResultVO();
+					recommendResultVO.setRestaurantId(recommendedItems.get(i).getItemID());
+					
+					recommendResultVO.setScore(recommendedItems.get(i).getValue());
+					
+					recommendResultVOs.add(recommendResultVO);
+				}
+			}
+			
 		}
 		
 		return gson.toJson(recommendResultVOs);
