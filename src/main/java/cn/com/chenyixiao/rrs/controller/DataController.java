@@ -35,7 +35,7 @@ import cn.com.chenyixiao.rrs.vo.Rrs;
 @RequestMapping(value="/data")
 public class DataController {
 	
-	private String dataFile = "D://data/dianping.json";
+	private String dataFile = "./data/dianping.json";
 	
 	@Autowired
 	private UserService userService;

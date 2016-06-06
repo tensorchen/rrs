@@ -67,7 +67,7 @@ public class SearchController {
 	}
 	
 	private void indexData() throws IOException {
-		Indexer indexer = new Indexer("D://index");
+		Indexer indexer = new Indexer("./index");
 		
 		List<Restaurant> restaurants = restaurantService.getAllRestaurants();
 		
@@ -100,7 +100,7 @@ public class SearchController {
 	}
 	
 	private String searchData(String key) throws IOException, ParseException, InvalidTokenOffsetsException {
-		Directory directory = FSDirectory.open(new File("D://index"));
+		Directory directory = FSDirectory.open(new File("./index"));
 		IndexSearcher indexSearcher = new IndexSearcher(directory);
 		
 		QueryParser queryParser = new QueryParser(Version.LUCENE_31, "foods",
@@ -127,7 +127,8 @@ public class SearchController {
 				searchResult.setRestaurantId(Long.valueOf(doc.get("id")));
 				searchResult.setRestaurantName(doc.get("restaurant_name"));
 				searchResult.setKey(key);
-				searchResult.setFoods(Arrays.asList(highlighter.getBestFragment(tokenStream, doc.get("foods")).split(" ")));
+				searchResult.setFoods(Arrays.asList(highlighter.
+						getBestFragment(tokenStream, doc.get("foods")).split(" ")));
 				searchResults.add(searchResult);
 			}
 		} else {

@@ -175,7 +175,10 @@ public class RecommendController {
 	@RequestMapping(value = "/data/csv", method = RequestMethod.GET)
 	public void generateDataCSV() throws IOException {
 		
-		File file = new File("D://data/dianping_user-restaurant.csv");
+		File file = new File("dianping_user-restaurant.csv");
+		if (!file.exists())
+			file.createNewFile();
+		
 		FileWriter fw = null;
 		BufferedWriter bw = null;
 		
