@@ -168,14 +168,14 @@ public class RecommendController {
 	}
 	
 	private DataModel getFileDataModel() throws IOException {
-		return new FileDataModel(new File("D://data/dianping_user-restaurant.csv"));
+		return new FileDataModel(new File("./data/dianping_user-restaurant.csv"));
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/data/csv", method = RequestMethod.GET)
 	public void generateDataCSV() throws IOException {
 		
-		File file = new File("dianping_user-restaurant.csv");
+		File file = new File("./data/dianping_user-restaurant.csv");
 		if (!file.exists())
 			file.createNewFile();
 		
